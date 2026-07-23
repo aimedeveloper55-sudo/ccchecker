@@ -1,7 +1,16 @@
 <?php
 
+// ==================== HEALTHCHECK FOR RAILWAY ====================
+// Ye Railway ke healthcheck ke liye hai
+if ($_SERVER['REQUEST_URI'] === '/' && $_SERVER['REQUEST_METHOD'] === 'GET') {
+    http_response_code(200);
+    echo "OK";
+    exit;
+}
+// ================================================================
+
 ////////////////=============[@shadowdemon_xd CHK BOT]=============////////////////
-$botToken = "8678505022:AAHvOsV4mGr6EFu6DkXcdGGeKQmhtu8mTc0"; // Apna token daalo
+$botToken = "8678505022:AAHvOsV4mGr6EFu6DkXcdGGeKQmhtu8mTc0"; // Apna bot token daalo
 $website = "https://api.telegram.org/bot".$botToken;
 error_reporting(0);
 $update = file_get_contents('php://input');
@@ -15,12 +24,12 @@ $lastname = $update["message"]["from"]["last_name"] ?? null;
 $username = $update["message"]["from"]["username"] ?? null;
 $message = $update["message"]["text"] ?? null;
 $message_id = $update["message"]["message_id"] ?? null;
-$premiums = file_get_contents('users.txt');
+$premiums = @file_get_contents('users.txt');
 $premium = explode("\n", $premiums);
-$group = file_get_contents('groups.txt');
+$group = @file_get_contents('groups.txt');
 $groups = explode("\n", $group);
 
-// Fixed username check
+// Username check
 if($userId == '1991559687') {
     $usernam = 'shadowdemon_xd%0A [Owner]';
 }
@@ -435,21 +444,21 @@ elseif (strpos($message, "/sk") === 0){
 function sendMessage ($chatId, $message, $message_id){
     if (!empty($chatId) && !empty($message)) {
         $url = $GLOBALS['website']."/sendMessage?chat_id=".$chatId."&text=".$message."&reply_to_message_id=".$message_id."&parse_mode=HTML";
-        file_get_contents($url);
+        @file_get_contents($url);
     }
 }
 
 function delMessage ($chatId, $message_id){
     if (!empty($chatId) && !empty($message_id)) {
         $url = $GLOBALS['website']."/deleteMessage?chat_id=".$chatId."&message_id=".$message_id."";
-        file_get_contents($url);
+        @file_get_contents($url);
     }
 }
 
 function editMessage($chatId, $message, $messageId) {
     if (!empty($chatId) && !empty($message)) {
         $url = $GLOBALS['website']."/editMessageText?chat_id=".$chatId."&message_id=".$messageId."&text=".urlencode($message);
-        file_get_contents($url);
+        @file_get_contents($url);
     }
 }
 
