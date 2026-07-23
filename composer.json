@@ -1,8 +1,5 @@
 {
     "require": {
         "php": ">=8.2"
-    },
-    "config": {
-        "platform-check": false
     }
 }
